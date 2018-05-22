@@ -5,11 +5,13 @@
  */
 package employeemanagement;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Lrandom
  */
-public class EmployeeModel {
+public class EmployeeModel implements Serializable{
     private int id;
     private String fullName;
     private int age;

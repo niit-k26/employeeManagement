@@ -5,6 +5,9 @@
  */
 package employeemanagement;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,30 +17,31 @@ import java.util.Scanner;
  */
 public class EmployeeManager {
     ArrayList<EmployeeModel> employees ;
+    EmployeeDAL dal;
 
     public EmployeeManager() {
        employees = new ArrayList<EmployeeModel>();
+       dal= new EmployeeDAL();
+       employees = dal.readEmployee();
     }
-    
    
     public EmployeeManager(ArrayList<EmployeeModel> employees) {
         
     }
     
-    
     public ArrayList<EmployeeModel> getEmployees(){
        return employees;
     }
     
-    public ArrayList<EmployeeModel> addNewEmployee(int id, String fullName, int age, String position, float salary){
+    public ArrayList<EmployeeModel> addNewEmployee(int id, String fullName, int age, String position, float salary) throws FileNotFoundException{
        EmployeeModel employee = new EmployeeModel();
        employee.setId(id);
        employee.setFullName(fullName);
        employee.setSalary(salary);
        employee.setPosition(position);
        employee.setAge(age);
-       
        employees.add(employee);
+        saveData();
        return employees;
     }
     
@@ -68,6 +72,7 @@ public class EmployeeManager {
           employee.setPosition(position);
           employee.setFullName(fullName);
           employees.set(index, employee);
+          saveData();
           return true;
        }
        return false;
@@ -78,6 +83,7 @@ public class EmployeeManager {
         int index = findIndexOfEmployeeById(id);
         if(index!=-1){
            employees.remove(index);
+           saveData();
            return true;
         }else{
            return false;
@@ -111,7 +117,7 @@ public class EmployeeManager {
     }
     
     public void listAllEmployees(ArrayList<EmployeeModel> employees){
-       if(employees.isEmpty()){
+       if(employees.isEmpty() || employees.size()==0){
            System.out.println("Do not have any employee");
        }else{
          for(int i = 0; i <employees.size();i++){
@@ -123,5 +129,10 @@ public class EmployeeManager {
            System.out.println("---------------------------------------");
          }
        }
+    }
+    
+    public void saveData(){
+           EmployeeDAL dal = new EmployeeDAL();
+           dal.saveEmployee(employees);
     }
 }
