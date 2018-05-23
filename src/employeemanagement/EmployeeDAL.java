@@ -19,6 +19,7 @@ import java.util.ArrayList;
  */
 public class EmployeeDAL {
     public static final String PATH="employee";
+    
     FileOutputStream fos;
     FileInputStream fis;
     
